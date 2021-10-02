@@ -1,6 +1,13 @@
 var http = require('http');
+var handler = require('./whitelist');
 http.createServer(function (req, res) {
-	console.log(req);
-	res.writeHead(200, {'Content-Type': 'text/html'});
-res.end("Hello World");
+	var handled = handler.CanHandle(req);
+	if (handled.success){	
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		res.end("Hello World");
+	}
+	else{
+		res.writeHead(401, {'Content-Type': 'text/html'});
+		res.end(handled.error);
+	}
 }).listen(8080);
