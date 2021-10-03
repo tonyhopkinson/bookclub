@@ -2,5 +2,9 @@
     {"port":8080,
     "name": "BookClub",
     "version": "1.0"
+    },
+    "whitelist":{
+        "allowed":["localhost:8080"],
+        "denied":[]
     }
 }

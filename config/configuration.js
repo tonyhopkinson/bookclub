@@ -21,8 +21,9 @@ class Configuration{
         this.port = configObject.server.port;
         this.name = configObject.server.name;
         this.version = configObject.server.version;    
+        this.allowedHosts = configObject.whitelist.allowed;
+        this.deniedHosts = configObject.whitelist.denied;
     }
  };
- const configuration = new Configuration();
- module.exports.Configuration = configuration;
+ module.exports.Configuration = new Configuration();
 
