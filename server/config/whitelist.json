@@ -1,6 +1,0 @@
-{
-    "Addresses":{
-        "Allowed":["localhost"],
-        "Denied":["test"]
-        }
-    }
