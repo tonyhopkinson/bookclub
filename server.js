@@ -1,19 +1,18 @@
 var http = require('http');
-var RequestModel = require('./lib/models/requestModel');
+const Serialware = require("./lib/middleware/serialWare");
+const Middleware = require("./lib/middleware/middleware");
 const myConfig = require('./config/configuration.js').Configuration;
-var Whitelist = require('./lib/authenticators/whitelist');
-http.createServer(function (req, res) {
-	//test
-	const rm = new RequestModel(req);
-	const rs = new Whitelist().authenticated(rm);
-	if (rs.valid)
-	{
-		res.writeHead(200, {'Content-Type': 'text/json'});
-		res.end("{\"Response\":\"Nothing\"}");
-	}
-	else
-	{
-		res.writeHead(401);
-		res.end(rs.error);
-	}
+async function process(input)
+{
+  var w1 = new Serialware('Test',null,null,[function (a) { return a;}]);
+//	  var w2 = new ParallelWare('Parallel',null, null,[s1,s2]);
+  var processor = new Middleware('Test',[w1]);
+  return await processor.execute(input);
+}
+
+http.createServer(async function (req, res) 
+{
+	var response = await process(req);
+    res.writeHead(200, {'Content-Type': 'text/json'});
+	res.end(response.toString());
 }).listen(myConfig.port);
