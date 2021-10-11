@@ -5,8 +5,8 @@ const myConfig = require('./config/configuration.js').Configuration;
 const options = new Map([['logging', true]]);
 async function process(input)
 {
-  var w1 = new Authenticatorware(options);
-  var processor = new Middleware('Test',[w1]);
+  var w1 = new Authenticatorware();
+  var processor = new Middleware('Test',[w1], options);
   return await processor.execute(input);
 }
 
