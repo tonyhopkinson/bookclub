@@ -23,6 +23,7 @@ class Configuration{
         this.version = configObject.server.version;    
         this.allowedHosts = configObject.whitelist.allowed;
         this.deniedHosts = configObject.whitelist.denied;
+        this.secret = configObject.secret;
     }
  };
  module.exports.Configuration = new Configuration();

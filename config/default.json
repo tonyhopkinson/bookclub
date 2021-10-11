@@ -6,5 +6,6 @@
     "whitelist":{
         "allowed":["localhost:8080"],
         "denied":[]
-    }
+    },
+    "secret":"secret"
 }
