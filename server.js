@@ -1,11 +1,11 @@
 var http = require('http');
-const Serialware = require("./lib/middleware/serialWare");
+const Authenticatorware = require("./lib/authenticators/authenticatorWare");
 const Middleware = require("./lib/middleware/middleware");
 const myConfig = require('./config/configuration.js').Configuration;
+const options = new Map([['logging', true]]);
 async function process(input)
 {
-  var w1 = new Serialware('Test',null,null,[function (a) { return a;}]);
-//	  var w2 = new ParallelWare('Parallel',null, null,[s1,s2]);
+  var w1 = new Authenticatorware(options);
   var processor = new Middleware('Test',[w1]);
   return await processor.execute(input);
 }
