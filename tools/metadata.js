@@ -263,6 +263,7 @@ class BookC
 {
     constructor(bbook)
     {
+        this.Id = 0;
         this.fullFilename = bbook.fullFilename;
         this.fileType = bbook.fileType;
         this.authors = getAuthors(bbook.authorPart);
@@ -344,10 +345,13 @@ if (fs.existsSync(resultFileName3) && !fs.existsSync(resultFileName4))
 {
     content = JSON.parse(fs.readFileSync(resultFileName3));
     var jContent = [];
+    id = 1;
     for (const book of content)
     {  
         var ibook = new BookC(book);
+        ibook.Id = id;
         jContent.push(ibook);
+        id++;
     }
     fs.writeFileSync(resultFileName4,JSON.stringify(jContent, null, 2));
     console.log(`${resultFileName4} written`);
