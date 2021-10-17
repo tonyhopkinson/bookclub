@@ -4,5 +4,5 @@ const processor = require('./lib/processor');
 
 http.createServer(async function (req, res) 
 {
-	processor(req,res);
+	await processor(req,res);
 }).listen(myConfig.port);
