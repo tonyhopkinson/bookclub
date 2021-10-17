@@ -1,18 +1,25 @@
 var http = require('http');
-const Authenticatorware = require("./lib/authenticators/authenticatorWare");
-const Middleware = require("./lib/middleware/middleware");
 const myConfig = require('./config/configuration.js').Configuration;
-const options = new Map([['logging', true]]);
-async function process(input)
+const authenticate = require('./lib/authentication/authenticate');
+const router = require('./lib/routing/router');
+const RequestResponse = require('./lib/models/requestResponse');
+function process(req, res)
 {
-  var w1 = new Authenticatorware();
-  var processor = new Middleware('Test',[w1], options);
-  return await processor.execute(input);
+  var requestResponse = new RequestResponse(req);
+  requestResponse =  authenticate(requestResponse);
+  if (requestResponse.response.Ok())
+  {
+    requestResponse = router(requestResponse);
+  }
+  if (requestResponse.response.Ok())
+  {
+    requestResponse = requestResponse.response.action(requestResponse);
+  }
+  res.writeHead(requestResponse.response.status, {'Content-Type': requestResponse.response.type});
+  res.end(requestResponse.response.data);
 }
 
 http.createServer(async function (req, res) 
 {
-	var response = await process(req);
-    res.writeHead(200, {'Content-Type': 'text/json'});
-	res.end(response.toString());
+	process(req,res);
 }).listen(myConfig.port);
