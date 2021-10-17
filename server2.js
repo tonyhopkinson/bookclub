@@ -55,14 +55,8 @@ function buildRoutes(controllerClasses)
       var children = result.get(action.method);  
       if (!children.has(action.name))
       {
-        children.set(action.name, new Map());
+        children.set(action.name, action.action);
       }
-      children = children.get(action.name);
-      if (children.has(action.dataType))
-      {
-        children.delete(action.dataType);
-      }
-      children.set(action.dataType, action.action);
     }
   }
   return result;
@@ -77,19 +71,12 @@ function findController(req)
   var method = req.method;
   var controller = Utilities.getController(req.url);
   var data = Utilities.getData(req.url);
-  var dataTypes = Utilities.getDataType(data);
   if (routes.has(method))
   {
-    if (routes[method].has(controller))
+    if (routes.get(method).has(controller))
     {
-        for(const dataType of dataTypes)
-        {
-          if (routes[method][controller].has(dataType))
-          {
-            return {method : routes[method][controller][dataType], data : data};
-          }
-        }
-      }
+      return {method : routes.get(method).get(controller), data : data};
+    }
   }
   return null;
 }
@@ -120,7 +107,7 @@ function process(req, res)
     }
     if (processing)
     {
-      var response = controller.method(data);
+      var response = controller.method(controller.data);
       res.writeHead(200, {'Content-Type': 'text/json'});
       res.end(JSON.stringify(response));
     }
