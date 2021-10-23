@@ -7,5 +7,6 @@
         "allowed":["localhost:8080"],
         "denied":[]
     },
-    "secret":"secret"
+    "secret":"secret",
+    "filesPath": "/Documents/Books"
 }

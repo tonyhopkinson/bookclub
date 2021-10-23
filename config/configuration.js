@@ -1,5 +1,6 @@
 var fs = require("fs");
 var env = require("process").env;
+const os = require('os');
 const configFolder = "config";
 const defaultConfigName = "default";
 const configExtension = "json";
@@ -24,6 +25,7 @@ class Configuration{
         this.allowedHosts = configObject.whitelist.allowed;
         this.deniedHosts = configObject.whitelist.denied;
         this.secret = configObject.secret;
+        this.filesPath = `${os.homedir}${configObject.filesPath}`;
     }
  };
  module.exports.Configuration = new Configuration();
